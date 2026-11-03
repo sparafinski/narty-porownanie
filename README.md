@@ -43,7 +43,7 @@ assets/app.js     – logika: liczenie kosztów, sortowanie, filtry
 Edytuj `assets/data.js`. Każdy ośrodek to obiekt z polami m.in. `name`, `km`, `fees`, `cur`, `ins`, `ownCut`, `busAdd` oraz listą `dates`, w której każdy termin ma postać:
 
 ```js
-["19.03–27.03", "https://link-do-oferty", 1940, "03"]
+["05.03–14.03", "https://link-do-oferty", 2540, "03"]
 ```
 
 czyli etykieta, link, cena „od” w złotych i miesiąc. Koszt łączny liczy się sam:
