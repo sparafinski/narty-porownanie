@@ -45,6 +45,11 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 .st{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600}
 .st.ok{background:var(--ok-soft);color:var(--ok)} .st.few{background:var(--few-soft);color:var(--few)} .st.last{background:var(--last-soft);color:var(--last)}
 .src{color:var(--muted);font-size:13px;margin-top:36px}
+.filters{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 12px;font-size:14px}
+.filters label{display:inline-flex;align-items:center;gap:5px;cursor:pointer} .filters .fg{display:inline-flex;gap:10px;align-items:center} .filters .fl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.filters select,.filters input[type=number]{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px} .filters input[type=number]{width:80px}
+.filters input[type=checkbox]{accent-color:var(--ac)} .filters .count{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+.toc a b{color:var(--ac);font-weight:600;margin-left:3px}
 .toc{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px} .toc a{font-size:13px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--card)} .toc a:hover{border-color:var(--ac);color:var(--ac)}
 @media (max-width:700px){.cmp th{width:28%}}
 </style>
@@ -52,12 +57,24 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 <body style="margin:0">
 <div class="wrap">
 <h1>Ośrodki SnowShow 2027</h1>
-<p class="sub">20 ośrodków i 56 wyjazdów z odjazdem autokaru z Poznania, wariant PLUS (ok. 24–30 lat). Terminy od stycznia 2027, bez sylwestra i Wielkiego Tygodnia, bez wyjazdów FAMILY i wyprzedanych. Dane z kart snowshow.pl, stan na 8.11.2026.</p>
-<div class="note">Ceny PLUS liczone jako cena z listy ±50 PLN (STUDENT +100, first-minute −50) i obowiązują do <b>19.11.2026</b>. Bez odjazdu z Poznania: Nassfeld, Civetta, Jahorina, Kranj; 3 Zinnen tylko 14.02 i 21.02 z dopłatą 150 zł.</div>
+<p class="sub">19 ośrodków i 53 wyjazdów z odjazdem autokaru z Poznania bez dopłaty, wariant PLUS (ok. 24–30 lat). Terminy od stycznia 2027, bez sylwestra i Wielkiego Tygodnia, bez wyjazdów FAMILY i wyprzedanych. Dane z kart snowshow.pl, stan na 8.11.2026.</p>
+<div class="note"><b>Koszt / os.</b> = cena PLUS (cena z listy ±50: STUDENT +100, first-minute −50, ważna do <b>19.11.2026</b>) + ubezpieczenie 95 PLN (EKUZ wgrany &gt;7 dni przed) + obowiązkowe opłaty lokalne (pościel, sprzątanie, taksa, HB; EUR po 4,30, CHF po 4,60), bez zwrotnej kaucji i bez jedzenia. + dopłata za pokój 3- lub 4-os. (najniższy wariant). Zaokrąglone do 10 PLN.</div>
 
-<div class="toc"><a href="#orelle-val-thorens-3-doliny">Orelle</a><a href="#val-thorens">Val Thorens</a><a href="#les-menuires-3-doliny">Les Menuires</a><a href="#les2alpes">Les 2 Alpes</a><a href="#tignes-val-d-isere">Tignes</a><a href="#la-plagne-paradiski">La Plagne</a><a href="#la-rosiere">La Rosière</a><a href="#alpe-d-huez">Alpe d&#x27;Huez</a><a href="#vaujany-alpe-d-huez">Vaujany</a><a href="#la-toussuire-les-sybelles">La Toussuire</a><a href="#le-corbier-les-sybelles">Le Corbier</a><a href="#saint-sorlin-d-arves-les-sybelles">Saint Sorlin d&#x27;Arves</a><a href="#risoul-vars">Risoul</a><a href="#vars-risoul">Vars</a><a href="#montgenevre-sestiere-via-lattea">Montgenèvre</a><a href="#val-cenis">Val Cenis</a><a href="#orci-res">Orcières</a><a href="#verbier-4-doliny">Verbier</a><a href="#dachstein-west">Dachstein West</a><a href="#3-zinnen-cortina-d-ampezzo-dolomiti-superski">3 Zinnen</a></div>
-<section id="orelle-val-thorens-3-doliny" class="resort">
-<div class="rh"><h2>Orelle</h2><span class="cc big">Francja</span><span class="price num">od <b>2440 PLN</b> PLUS</span></div>
+<div class="filters" id="filters">
+<label>Sortuj <select id="sort">
+<option value="price">od najtańszych</option><option value="bus">najkrótszy dojazd</option><option value="km">najwięcej km tras</option><option value="name">alfabetycznie</option>
+</select></label>
+<span class="fg"><span class="fl">Pokój</span><label><input type="checkbox" id="f-s3"> 3-os.</label><label><input type="checkbox" id="f-s4"> 4-os.</label></span>
+<span class="fg"><span class="fl">Miesiąc</span><label><input type="checkbox" class="f-m" value="1" checked> I</label><label><input type="checkbox" class="f-m" value="2" checked> II</label><label><input type="checkbox" class="f-m" value="3" checked> III</label><label><input type="checkbox" class="f-m" value="4" checked> IV</label></span>
+<span class="fg"><span class="fl">Kraj</span><label><input type="checkbox" class="f-c" value="Francja" checked> Francja</label><label><input type="checkbox" class="f-c" value="Szwajcaria" checked> Szwajcaria</label><label><input type="checkbox" class="f-c" value="Austria" checked> Austria</label><label><input type="checkbox" class="f-c" value="Włochy" checked> Włochy</label></span>
+<label><input type="checkbox" id="f-meals"> z wyżywieniem (HB)</label>
+<label><input type="checkbox" id="f-free"> tylko wolne miejsca</label>
+<label>Maks. koszt / os. <input type="number" id="f-max" min="2000" max="6000" step="50" placeholder="brak"> PLN</label>
+<span class="count" id="count"></span>
+</div>
+<div class="toc" id="toc"></div>
+<div id="list"><section id="orelle-val-thorens-3-doliny" class="resort" data-name="Orelle" data-price="2750" data-bus="23.0" data-km="150" data-s3="1" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Orelle</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">2750 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Orelle–Val Thorens<div class="ext">opcja: 3 Doliny, 600 km (za dopłatą)</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>150 km tras</b> · 2050–3230 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>11</b></li><li><span>łatwe</span><b>39</b></li><li><span>średnie</span><b>30</b></li><li><span>trudne</span><b>8</b></li></ul></td></tr>
@@ -69,13 +86,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: 100–300 PLN</li><li>4-os.: 100 PLN</li><li>wolne łóżko: +800 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel 10 EUR</li><li>Wydanie skipassu 3 EUR (część terminów)</li><li>Taksa 13 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Cicha wioska na uboczu, mało barów („4−”); eventy SnowShow w sali w rezydencji, życie nocne Val Thorens po dojeździe gondolą.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">01.01–10.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/01-01-2027">Gondola To Heaven</a></td><td class="small">BASIC (Hameau)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3340</b></td></tr><tr><td class="num">15.01–24.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/15-01-2027">Ride &amp; Relax</a></td><td class="small">BASIC (Hameau)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>2740</b></td></tr><tr><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/22-01-2027">Into The Snow</a></td><td class="small">BASIC (Hameau)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2740</b></td></tr><tr><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/29-01-2027">Snowy Nomads</a></td><td class="small">BASIC (Hameau)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>2940</b></td></tr><tr><td class="num">26.02–07.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/26-02-2027">Ski Hard or Go Home</a></td><td class="small">BASIC (Hameau)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3440</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/05-03-2027">Alpine Rebels</a></td><td class="small">BASIC (Hameau)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2940</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/12-03-2027">Slopes of Glory</a></td><td class="small">BASIC (Hameau)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2740</b></td></tr><tr><td class="num">02.04–11.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/02-04-2027">Snow&amp;Spring Week</a></td><td class="small">BASIC (Hameau)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2540</b></td></tr><tr><td class="num">09.04–18.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/09-04-2027">April Sunnification</a></td><td class="small">BASIC (Hameau)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2440</b></td></tr></tbody></table></div>
-</section><section id="val-thorens" class="resort">
-<div class="rh"><h2>Val Thorens</h2><span class="cc big">Francja</span><span class="price num">od <b>4540 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="ok" data-price="3650"><td class="num">01.01–10.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/01-01-2027">Gondola To Heaven</a> <span class="st ok">wolne</span></td><td class="num"><b>3650</b></td><td class="num"><b>3650</b></td></tr><tr data-month="1" data-status="few" data-price="3030"><td class="num">15.01–24.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/15-01-2027">Ride &amp; Relax</a> <span class="st few">mało</span></td><td class="num"><b>3230</b></td><td class="num"><b>3030</b></td></tr><tr data-month="1" data-status="ok" data-price="3030"><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/22-01-2027">Into The Snow</a> <span class="st ok">wolne</span></td><td class="num"><b>3030</b></td><td class="num"><b>3030</b></td></tr><tr data-month="1" data-status="few" data-price="3250"><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/29-01-2027">Snowy Nomads</a> <span class="st few">mało</span></td><td class="num"><b>3250</b></td><td class="num"><b>3250</b></td></tr><tr data-month="2" data-status="few" data-price="3750"><td class="num">26.02–07.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/26-02-2027">Ski Hard or Go Home</a> <span class="st few">mało</span></td><td class="num"><b>3750</b></td><td class="num"><b>3750</b></td></tr><tr data-month="3" data-status="ok" data-price="3250"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/05-03-2027">Alpine Rebels</a> <span class="st ok">wolne</span></td><td class="num"><b>3250</b></td><td class="num"><b>3250</b></td></tr><tr data-month="3" data-status="ok" data-price="3050"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/12-03-2027">Slopes of Glory</a> <span class="st ok">wolne</span></td><td class="num"><b>3050</b></td><td class="num"><b>3050</b></td></tr><tr data-month="4" data-status="ok" data-price="2800"><td class="num">02.04–11.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/02-04-2027">Snow&amp;Spring Week</a> <span class="st ok">wolne</span></td><td class="num"><b>2800</b></td><td class="num"><b>2800</b></td></tr><tr data-month="4" data-status="ok" data-price="2750"><td class="num">09.04–18.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/orelle/09-04-2027">April Sunnification</a> <span class="st ok">wolne</span></td><td class="num"><b>2750</b></td><td class="num"><b>2750</b></td></tr></tbody></table></div>
+</section><section id="val-thorens" class="resort" data-name="Val Thorens" data-price="4870" data-bus="25.0" data-km="150" data-s3="0" data-s4="0" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Val Thorens</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">4870 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Val Thorens–Orelle<div class="ext">opcja: 3 Doliny, 600 km (za dopłatą)</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>150 km tras</b> · 1800–3230 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>11</b></li><li><span>łatwe</span><b>39</b></li><li><span>średnie</span><b>30</b></li><li><span>trudne</span><b>8</b></li></ul></td></tr>
@@ -87,13 +104,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: brak</li><li>wolne łóżko: +1800 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~25 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~25 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Duża stacja: après-ski, bary i kluby w międzynarodowym klimacie, plus imprezy SnowShow.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/val-thorens/12-03-2027">French Snow</a></td><td class="small">LUX (Les Balcons)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>4540</b></td></tr></tbody></table></div>
-</section><section id="les-menuires-3-doliny" class="resort">
-<div class="rh"><h2>Les Menuires</h2><span class="cc big">Francja</span><span class="price num">od <b>3140 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="3" data-status="ok" data-price="4870"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/val-thorens/12-03-2027">French Snow</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>–</b></td></tr></tbody></table></div>
+</section><section id="les-menuires-3-doliny" class="resort" data-name="Les Menuires" data-price="3560" data-bus="24.0" data-km="160" data-s3="1" data-s4="1" data-meals="1" data-country="Francja">
+<div class="rh"><h2>Les Menuires</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3560 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Les Menuires–Saint Martin<div class="ext">opcja: 3 Doliny, 600 km (za dopłatą)</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>160 km tras</b> · 1815–2850 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>6</b></li><li><span>łatwe</span><b>31</b></li><li><span>średnie</span><b>29</b></li><li><span>trudne</span><b>7</b></li></ul></td></tr>
@@ -119,13 +136,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 200 (tylko 01.01) PLN</li><li>wolne łóżko: +1300–1800 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~24 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~24 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 12–15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>„Friendly Menuires” – restauracje, puby i dwa kluby z DJ-ami tuż obok rezydencji; zabawa nie kończy się na stoku.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">01.01–10.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/01-01-2027">All About the Ride</a></td><td class="small">LUX **** (Le Coeur des Loges)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3340</b></td></tr><tr><td class="num">08.01–17.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/08-01-2027">Sunny Slopes</a></td><td class="small">LUX **** (Le Coeur des Loges)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3140</b></td></tr><tr><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/22-01-2027">Winterbang</a></td><td class="small">RELAX (Sowell)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3440</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/12-03-2027">French Powder Quest</a></td><td class="small">RELAX (Sowell)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3340</b></td></tr></tbody></table></div>
-</section><section id="les2alpes" class="resort">
-<div class="rh"><h2>Les 2 Alpes</h2><span class="cc big">Francja</span><span class="price num">od <b>3240 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="few" data-price="3760"><td class="num">01.01–10.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/01-01-2027">All About the Ride</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>3760</b></td></tr><tr data-month="1" data-status="few" data-price="3560"><td class="num">08.01–17.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/08-01-2027">Sunny Slopes</a> <span class="st few">mało</span></td><td class="num"><b>3760</b></td><td class="num"><b>3560</b></td></tr><tr data-month="1" data-status="ok" data-price="3770"><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/22-01-2027">Winterbang</a> <span class="st ok">wolne</span></td><td class="num"><b>3970</b></td><td class="num"><b>3770</b></td></tr><tr data-month="3" data-status="ok" data-price="3760"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/les-menuires/12-03-2027">French Powder Quest</a> <span class="st ok">wolne</span></td><td class="num"><b>3960</b></td><td class="num"><b>3760</b></td></tr></tbody></table></div>
+</section><section id="les2alpes" class="resort" data-name="Les 2 Alpes" data-price="3870" data-bus="26.0" data-km="225" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Les 2 Alpes</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3870 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Les 2 Alpes</td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>225 km tras</b> · 1650–3600 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>13</b></li><li><span>łatwe</span><b>49</b></li><li><span>średnie</span><b>17</b></li><li><span>trudne</span><b>11</b></li></ul></td></tr>
@@ -137,13 +154,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 100–300 PLN</li><li>wolne łóżko: +1500–2000 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Imprezownia: mnóstwo pubów, barów i klubów (Smithy&#x27;s, Umbrella Bar, L&#x27;Avalanche) kilka minut od rezydencji.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">01.01–10.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/01-01-2027">Feel The Alps</a></td><td class="small">LUX 4* (Les Clarines)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3240</b></td></tr><tr><td class="num">08.01–17.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/08-01-2027">Snow Riders</a></td><td class="small">LUX (Les Clarines)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3240</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/05-03-2027">Peak Riders</a></td><td class="small">LUX (Les Clarines)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3940</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/12-03-2027">French Alpine Rebels</a></td><td class="small">LUX (Les Clarines)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3740</b></td></tr></tbody></table></div>
-</section><section id="tignes-val-d-isere" class="resort">
-<div class="rh"><h2>Tignes</h2><span class="cc big">Francja</span><span class="price num">od <b>3640 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="few" data-price="3870"><td class="num">01.01–10.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/01-01-2027">Feel The Alps</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>3870</b></td></tr><tr data-month="1" data-status="ok" data-price="3870"><td class="num">08.01–17.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/08-01-2027">Snow Riders</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3870</b></td></tr><tr data-month="3" data-status="ok" data-price="4470"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/05-03-2027">Peak Riders</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4470</b></td></tr><tr data-month="3" data-status="ok" data-price="4170"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/les2alpes/12-03-2027">French Alpine Rebels</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4170</b></td></tr></tbody></table></div>
+</section><section id="tignes-val-d-isere" class="resort" data-name="Tignes" data-price="4170" data-bus="23.0" data-km="300" data-s3="0" data-s4="1" data-meals="1" data-country="Francja">
+<div class="rh"><h2>Tignes</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">4170 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Tignes–Val d&#x27;Isère<div class="ext">Tignes + Val d&#x27;Isère w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>300 km tras</b> · 1550–3450 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>20</b></li><li><span>łatwe</span><b>60</b></li><li><span>średnie</span><b>65</b></li><li><span>trudne</span><b>16</b></li></ul></td></tr>
@@ -155,13 +172,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 200–300 PLN</li><li>wolne łóżko: +1500–2200 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Nie typowa imprezownia, ale bary z muzyką na żywo, tarasy z DJ-ami i puby w Le Lac i Val Claret.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/tignes-val-d-isere/05-03-2027">French Kiss of Snow</a></td><td class="small">LUX **** (Altaviva)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>4740</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/tignes-val-d-isere/12-03-2027">Gravity Race</a></td><td class="small">LUX **** (Altaviva)</td><td><span class="st ok">wolne</span></td><td class="small">+150 zł</td><td class="num"><b>4540</b></td></tr><tr><td class="num">02.04–11.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/tignes-val-d-isere/02-04-2027">Winter Escape</a></td><td class="small">LUX **** (Altaviva)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3640</b></td></tr></tbody></table></div>
-</section><section id="la-plagne-paradiski" class="resort">
-<div class="rh"><h2>La Plagne</h2><span class="cc big">Francja</span><span class="price num">od <b>3490 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="3" data-status="ok" data-price="5370"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/tignes-val-d-isere/05-03-2027">French Kiss of Snow</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>5370</b></td></tr><tr data-month="4" data-status="ok" data-price="4170"><td class="num">02.04–11.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/tignes-val-d-isere/02-04-2027">Winter Escape</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4170</b></td></tr></tbody></table></div>
+</section><section id="la-plagne-paradiski" class="resort" data-name="La Plagne" data-price="3710" data-bus="26.0" data-km="225" data-s3="1" data-s4="0" data-meals="0" data-country="Francja">
+<div class="rh"><h2>La Plagne</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3710 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, La Plagne<div class="ext">opcja: Paradiski (z Les Arcs), 425 km, ok. 140–200 PLN</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>225 km tras</b> · 1207–3167 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>9</b></li><li><span>łatwe</span><b>78</b></li><li><span>średnie</span><b>35</b></li><li><span>trudne</span><b>19</b></li></ul></td></tr>
@@ -180,13 +197,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: brak</li><li>wolne łóżko: +1500 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 10–15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR (LUX)</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Życie nocne słabsze niż w Risoul czy Les 2 Alpes, ale są knajpki, pub z muzyką na żywo i kręgielnia.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-plagne/29-01-2027">French Ski &amp; Chill</a></td><td class="small">COMFORT (Backgammon)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3490</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-plagne/05-03-2027">Friends &amp; Wine</a></td><td class="small">COMFORT (Backgammon)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3540</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-plagne/12-03-2027">French Alps Odyssey</a></td><td class="small">LUX**** (Front De Neige)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3540</b></td></tr></tbody></table></div>
-</section><section id="la-rosiere" class="resort">
-<div class="rh"><h2>La Rosière</h2><span class="cc big">Francja</span><span class="price num">od <b>3490 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="ok" data-price="3710"><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-plagne/29-01-2027">French Ski &amp; Chill</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>–</b></td></tr><tr data-month="3" data-status="ok" data-price="4060"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-plagne/05-03-2027">Friends &amp; Wine</a> <span class="st ok">wolne</span></td><td class="num"><b>4060</b></td><td class="num"><b>–</b></td></tr><tr data-month="3" data-status="ok" data-price="3870"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-plagne/12-03-2027">French Alps Odyssey</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>–</b></td></tr></tbody></table></div>
+</section><section id="la-rosiere" class="resort" data-name="La Rosière" data-price="3970" data-bus="26.0" data-km="200" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>La Rosière</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3970 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, La Rosière–La Thuile<div class="ext">La Rosière–La Thuile (Włochy) w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>200 km tras</b> · 1850–2800 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>9</b></li><li><span>łatwe</span><b>26</b></li><li><span>średnie</span><b>39</b></li><li><span>trudne</span><b>15</b></li></ul></td></tr>
@@ -198,13 +215,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 200 PLN</li><li>wolne łóżko: +1500 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 10 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Lodowisko, kręgielnia, bary après-ski i klub z DJ-ami. Termin 22.01 = ZIMNO Helicamp (freeride, heliskiing).</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-rosiere-22-01-2027">ZIMNO Helicamp</a></td><td class="small">LUX (Les Balcons)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3590</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-rosiere/05-03-2027">March Sun &amp; Snow</a></td><td class="small">LUX (Les Balcons)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3490</b></td></tr></tbody></table></div>
-</section><section id="alpe-d-huez" class="resort">
-<div class="rh"><h2>Alpe d&#x27;Huez</h2><span class="cc big">Francja</span><span class="price num">od <b>3640 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="few" data-price="3970"><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-rosiere-22-01-2027">ZIMNO Helicamp</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>3970</b></td></tr><tr data-month="3" data-status="ok" data-price="4000"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-rosiere/05-03-2027">March Sun &amp; Snow</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4000</b></td></tr></tbody></table></div>
+</section><section id="alpe-d-huez" class="resort" data-name="Alpe d&#x27;Huez" data-price="4810" data-bus="26.0" data-km="250" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Alpe d&#x27;Huez</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">4810 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Alpe d&#x27;Huez Grand Domaine<div class="ext">Grand Domaine w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>250 km tras</b> · 1250–3300 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>43</b></li><li><span>łatwe</span><b>34</b></li><li><span>średnie</span><b>40</b></li><li><span>trudne</span><b>16</b></li></ul></td></tr>
@@ -216,13 +233,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 800–950 PLN</li><li>wolne łóżko: +1700–1900 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 28 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Dobrze zorganizowana miejscówka z topowymi rozrywkami po nartach.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/alpe-d-huez/29-01-2027">French Alpine Thrill</a></td><td class="small">LUX***** (L&#x27;eclose)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3840</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/alpe-d-huez/05-03-2027">French Alpine Explosion</a></td><td class="small">LUX***** (L&#x27;eclose)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3640</b></td></tr></tbody></table></div>
-</section><section id="vaujany-alpe-d-huez" class="resort">
-<div class="rh"><h2>Vaujany</h2><span class="cc big">Francja</span><span class="price num">od <b>2240 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="ok" data-price="5160"><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/alpe-d-huez/29-01-2027">French Alpine Thrill</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>5160</b></td></tr><tr data-month="3" data-status="ok" data-price="4810"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/alpe-d-huez/05-03-2027">French Alpine Explosion</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4810</b></td></tr></tbody></table></div>
+</section><section id="vaujany-alpe-d-huez" class="resort" data-name="Vaujany" data-price="3080" data-bus="26.0" data-km="250" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Vaujany</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3080 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Alpe d&#x27;Huez Grand Domaine<div class="ext">Grand Domaine w cenie (gondola do Alpe d&#x27;Huez)</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>250 km tras</b> · 1250–3300 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>43</b></li><li><span>łatwe</span><b>34</b></li><li><span>średnie</span><b>40</b></li><li><span>trudne</span><b>16</b></li></ul></td></tr>
@@ -241,13 +258,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 600 PLN</li><li>wolne łóżko: +1200 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 10 EUR</li><li>Sprzątanie 11–20 EUR</li><li>Taksa 13 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Rozrywki znikome (parę barów, brak klubów), za to centrum sportu z lodowiskiem i kręgielnią. Jedyny termin: kwiecień.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">09.04–18.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/vaujany-alpe-d-huez/09-04-2027">Slope Hunters</a></td><td class="small">LUX **** (Les Edelweiss) / Zakwaterowanie COMFORT (Les Epinettes)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2240</b></td></tr></tbody></table></div>
-</section><section id="la-toussuire-les-sybelles" class="resort">
-<div class="rh"><h2>La Toussuire</h2><span class="cc big">Francja</span><span class="price num">od <b>2840 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="4" data-status="ok" data-price="3080"><td class="num">09.04–18.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/vaujany-alpe-d-huez/09-04-2027">Slope Hunters</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3080</b></td></tr></tbody></table></div>
+</section><section id="la-toussuire-les-sybelles" class="resort" data-name="La Toussuire" data-price="3470" data-bus="26.0" data-km="310" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>La Toussuire</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3470 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Les Sybelles<div class="ext">cały obszar Les Sybelles w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>310 km tras</b> · 1100–2620 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>31</b></li><li><span>łatwe</span><b>58</b></li><li><span>średnie</span><b>36</b></li><li><span>trudne</span><b>11</b></li></ul></td></tr>
@@ -259,13 +276,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 300 PLN</li><li>wolne łóżko: +1400–1500 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Spokojnie, nie imprezownia; kilka barów i restauracji przy rezydencji. Termin 02.04 = Electronic Week (festiwal DJ-ski).</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">15.01–24.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-toussuire/15-01-2027">Ride, Rest, Repeat</a></td><td class="small">LUX (Le Caprice Blanc)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3240</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-toussuire/12-03-2027">French Mountain Escape</a></td><td class="small">LUX (Le Caprice Blanc)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2840</b></td></tr><tr><td class="num">02.04–11.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-toussuire/02-04-2027">SnowShow Electronic Week vol. 2</a></td><td class="small">LUX (Le Caprice Blanc)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2840</b></td></tr></tbody></table></div>
-</section><section id="le-corbier-les-sybelles" class="resort">
-<div class="rh"><h2>Le Corbier</h2><span class="cc big">Francja</span><span class="price num">od <b>2840 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="few" data-price="3870"><td class="num">15.01–24.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-toussuire/15-01-2027">Ride, Rest, Repeat</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>3870</b></td></tr><tr data-month="3" data-status="ok" data-price="3470"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-toussuire/12-03-2027">French Mountain Escape</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3470</b></td></tr><tr data-month="4" data-status="ok" data-price="3470"><td class="num">02.04–11.04</td><td><a href="https://snowshow.pl/wyjazdy/francja/la-toussuire/02-04-2027">SnowShow Electronic Week vol. 2</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3470</b></td></tr></tbody></table></div>
+</section><section id="le-corbier-les-sybelles" class="resort" data-name="Le Corbier" data-price="3350" data-bus="26.0" data-km="310" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Le Corbier</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3350 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Les Sybelles<div class="ext">cały obszar Les Sybelles w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>310 km tras</b> · 1100–2620 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>31</b></li><li><span>łatwe</span><b>58</b></li><li><span>średnie</span><b>36</b></li><li><span>trudne</span><b>11</b></li></ul></td></tr>
@@ -277,13 +294,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 200 PLN</li><li>wolne łóżko: +1500 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 10 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Spokojnie; kilka barów przy rezydencji, imprezy poza obiektem. Wyjazd tylko PLUS/OLDSCHOOL.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/le-corbier/12-03-2027">Snow Me Baby One More Time</a></td><td class="small">LUX (MMV L&#x27;étoile)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2840</b></td></tr></tbody></table></div>
-</section><section id="saint-sorlin-d-arves-les-sybelles" class="resort">
-<div class="rh"><h2>Saint Sorlin d&#x27;Arves</h2><span class="cc big">Francja</span><span class="price num">od <b>2340 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="3" data-status="ok" data-price="3350"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/le-corbier/12-03-2027">Snow Me Baby One More Time</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3350</b></td></tr></tbody></table></div>
+</section><section id="saint-sorlin-d-arves-les-sybelles" class="resort" data-name="Saint Sorlin d&#x27;Arves" data-price="2590" data-bus="26.0" data-km="310" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Saint Sorlin d&#x27;Arves</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">2590 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Les Sybelles<div class="ext">cały obszar Les Sybelles w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>310 km tras</b> · 1100–2620 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>31</b></li><li><span>łatwe</span><b>58</b></li><li><span>średnie</span><b>36</b></li><li><span>trudne</span><b>11</b></li></ul></td></tr>
@@ -295,13 +312,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 100 PLN</li><li>wolne łóżko: +800 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Taksa 12 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Spokojna wioska nastawiona na sport: kilka restauracji, bar, kręgielnia, jeden klub.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/saint-sorlin-d-arves/12-03-2027">Baguette et Ski</a></td><td class="small">Apartamenty BASIC (Madame Vacances)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>2340</b></td></tr></tbody></table></div>
-</section><section id="risoul-vars" class="resort">
-<div class="rh"><h2>Risoul</h2><span class="cc big">Francja</span><span class="price num">od <b>3040 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="3" data-status="few" data-price="2590"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/saint-sorlin-d-arves/12-03-2027">Baguette et Ski</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>2590</b></td></tr></tbody></table></div>
+</section><section id="risoul-vars" class="resort" data-name="Risoul" data-price="3440" data-bus="26.0" data-km="185" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Risoul</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3440 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Risoul–Vars<div class="ext">La Forêt Blanche (Risoul+Vars) w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>185 km tras</b> · 1650–2750 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>15</b></li><li><span>łatwe</span><b>50</b></li><li><span>średnie</span><b>35</b></li><li><span>trudne</span><b>9</b></li></ul></td></tr>
@@ -320,13 +337,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 0 (05.02) PLN</li><li>wolne łóżko: +2000 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR (LUX)</li><li>Sprzątanie 20 EUR (LUX)</li><li>Taksa 23 EUR (LUX) / 13 EUR (BUDGET)</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Kultowa studencka imprezownia: kluby, bary i après-ski codziennie tuż przy budynkach, Biba na Stoku w Le Tetras.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/22-01-2027">Winter Heroes</a></td><td class="small">LUX **** (Le Silvana)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3240</b></td></tr><tr><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/29-01-2027">French Week</a></td><td class="small">LUX **** (Le Silvana)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3540</b></td></tr><tr><td class="num">05.02–14.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/05-02-2027">Only Snow Vibes</a></td><td class="small">BUDGET (La Front De Neige)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3040</b></td></tr><tr><td class="num">26.02–07.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/26-02-2027">Ride The French Alps</a></td><td class="small">BUDGET (La Front De Neige)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3390</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/05-03-2027">Let It Snow</a></td><td class="small">LUX **** (Le Silvana)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3440</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/12-03-2027">Snow Hunters</a></td><td class="small">LUX **** (Le Silvana)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3040</b></td></tr></tbody></table></div>
-</section><section id="vars-risoul" class="resort">
-<div class="rh"><h2>Vars</h2><span class="cc big">Francja</span><span class="price num">od <b>3340 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="few" data-price="3880"><td class="num">22.01–31.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/22-01-2027">Winter Heroes</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>3880</b></td></tr><tr data-month="1" data-status="ok" data-price="4680"><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/29-01-2027">French Week</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4680</b></td></tr><tr data-month="2" data-status="ok" data-price="3440"><td class="num">05.02–14.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/05-02-2027">Only Snow Vibes</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3440</b></td></tr><tr data-month="2" data-status="ok" data-price="3540"><td class="num">26.02–07.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/26-02-2027">Ride The French Alps</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>–</b></td></tr><tr data-month="3" data-status="ok" data-price="4080"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/05-03-2027">Let It Snow</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4080</b></td></tr><tr data-month="3" data-status="ok" data-price="3780"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/risoul-vars/12-03-2027">Snow Hunters</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3780</b></td></tr></tbody></table></div>
+</section><section id="vars-risoul" class="resort" data-name="Vars" data-price="3870" data-bus="26.0" data-km="185" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Vars</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3870 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, La Forêt Blanche<div class="ext">La Forêt Blanche (Risoul+Vars) w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>185 km tras</b> · 1650–2750 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>15</b></li><li><span>łatwe</span><b>50</b></li><li><span>średnie</span><b>35</b></li><li><span>trudne</span><b>9</b></li></ul></td></tr>
@@ -338,13 +355,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 200 PLN</li><li>wolne łóżko: +1800 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~26 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Kameralnie i spokojnie: knajpki i bary w Les Claux, tor saneczkowy, lodowa grota. Wyjazd tylko PLUS/OLDSCHOOL.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">05.02–14.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/vars/05-02-2027">Snow Vibes</a></td><td class="small">COMFORT (Arya)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3340</b></td></tr></tbody></table></div>
-</section><section id="montgenevre-sestiere-via-lattea" class="resort">
-<div class="rh"><h2>Montgenèvre</h2><span class="cc big">Francja</span><span class="price num">od <b>3040 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="2" data-status="ok" data-price="3870"><td class="num">05.02–14.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/vars/05-02-2027">Snow Vibes</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3870</b></td></tr></tbody></table></div>
+</section><section id="montgenevre-sestiere-via-lattea" class="resort" data-name="Montgenèvre" data-price="3570" data-bus="23.0" data-km="110" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Montgenèvre</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3570 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Montgenèvre (Monts de la Lune)<div class="ext">opcja: Via Lattea, 400 km</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>110 km tras</b> · 1860–2540 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>9</b></li><li><span>łatwe</span><b>17</b></li><li><span>średnie</span><b>39</b></li><li><span>trudne</span><b>13</b></li></ul></td></tr>
@@ -356,13 +373,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 100–500 (zależnie od terminu) PLN</li><li>wolne łóżko: +1200–1800 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 20 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Klimatyczny deptak z restauracjami i barami, ale nie typowa imprezownia; imprezy poza rezydencją.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">15.01–24.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/15-01-2027">Après All Day</a></td><td class="small">LUX (Le Hameau des Airelles)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>3190</b></td></tr><tr><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/29-01-2027">French Snow Escape</a></td><td class="small">LUX (Le Hameau des Airelles)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3240</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/05-03-2027">Powder Hunters</a></td><td class="small">LUX (Le Hameau des Airelles)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3340</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/12-03-2027">Alpine French Vibe</a></td><td class="small">LUX (Le Hameau des Airelles)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3040</b></td></tr></tbody></table></div>
-</section><section id="val-cenis" class="resort">
-<div class="rh"><h2>Val Cenis</h2><span class="cc big">Francja</span><span class="price num">od <b>2640 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="1" data-status="few" data-price="3620"><td class="num">15.01–24.01</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/15-01-2027">Après All Day</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>3620</b></td></tr><tr data-month="1" data-status="ok" data-price="4070"><td class="num">29.01–07.02</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/29-01-2027">French Snow Escape</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4070</b></td></tr><tr data-month="3" data-status="ok" data-price="3870"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/05-03-2027">Powder Hunters</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3870</b></td></tr><tr data-month="3" data-status="ok" data-price="3570"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/montgenevre/12-03-2027">Alpine French Vibe</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3570</b></td></tr></tbody></table></div>
+</section><section id="val-cenis" class="resort" data-name="Val Cenis" data-price="3040" data-bus="23.0" data-km="125" data-s3="0" data-s4="1" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Val Cenis</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3040 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Val Cenis</td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>125 km tras</b> · 1300–2800 m n.p.m.<ul class="tr"><li><span>bardzo łatwe</span><b>16</b></li><li><span>łatwe</span><b>19</b></li><li><span>średnie</span><b>22</b></li><li><span>trudne</span><b>5</b></li></ul></td></tr>
@@ -374,13 +391,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 100 PLN</li><li>wolne łóżko: +1200 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 13 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Cicha sabaudzka dolina bez tłoku, lokalne restauracje; imprezy robi ekipa SnowShow w sali.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/val-cenis/05-03-2027">French Snow Week</a></td><td class="small">LUX**** (Les Alpages)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2940</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/val-cenis/12-03-2027">March Snow&amp;Fun</a></td><td class="small">LUX**** (Les Alpages)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2640</b></td></tr></tbody></table></div>
-</section><section id="orci-res" class="resort">
-<div class="rh"><h2>Orcières</h2><span class="cc big">Francja</span><span class="price num">od <b>2740 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="3" data-status="ok" data-price="3340"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/val-cenis/05-03-2027">French Snow Week</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3340</b></td></tr><tr data-month="3" data-status="ok" data-price="3040"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/val-cenis/12-03-2027">March Snow&amp;Fun</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3040</b></td></tr></tbody></table></div>
+</section><section id="orci-res" class="resort" data-name="Orcières" data-price="3090" data-bus="23.0" data-km="100" data-s3="0" data-s4="0" data-meals="0" data-country="Francja">
+<div class="rh"><h2>Orcières</h2><span class="cc big">Francja</span><span class="price num">od <b class="pmin">3090 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Orcières Merlette</td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>100 km tras</b> · 1850–2725 m n.p.m.<ul class="tr"><li><span>łatwe</span><b>18</b></li><li><span>średnie</span><b>68</b></li><li><span>trudne</span><b>14</b></li></ul></td></tr>
@@ -392,13 +409,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: brak</li><li>wolne łóżko: –</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~23 h</b> z Warszawy · dojazd własny −200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 15 EUR</li><li>Sprzątanie 20 EUR</li><li>Taksa 24 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Spokojnie; atrakcje poza stokiem: lodowisko, bowling, basen, tyrolka 1,8 km.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orcieres/05-03-2027">Oui Love Alps</a></td><td class="small">COMFORT 3* (Le Vallon)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2740</b></td></tr></tbody></table></div>
-</section><section id="verbier-4-doliny" class="resort">
-<div class="rh"><h2>Verbier</h2><span class="cc big">Szwajcaria</span><span class="price num">od <b>2940 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="3" data-status="ok" data-price="3090"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/francja/orcieres/05-03-2027">Oui Love Alps</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>–</b></td></tr></tbody></table></div>
+</section><section id="verbier-4-doliny" class="resort" data-name="Verbier" data-price="3370" data-bus="21.0" data-km="180" data-s3="0" data-s4="1" data-meals="0" data-country="Szwajcaria">
+<div class="rh"><h2>Verbier</h2><span class="cc big">Szwajcaria</span><span class="price num">od <b class="pmin">3370 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Verbier<div class="ext">opcja: 4 Doliny, 412 km</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>180 km tras</b> · 1500–3330 m n.p.m.<ul class="tr"><li><span>łatwe</span><b>15</b></li><li><span>średnie</span><b>26</b></li><li><span>trudne</span><b>5</b></li></ul></td></tr>
@@ -410,13 +427,13 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 100 PLN</li><li>wolne łóżko: +1400–2200 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~21 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −150 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~21 h</b> z Warszawy · dojazd własny −150 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel 15 CHF</li><li>Sprzątanie 20 CHF</li><li>Taksa 17 CHF</li><li>Kaucja zwrotna 50 CHF</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Kameralnie, sport i chill, bez hucznych imprez: planszówki, grill, karaoke, Poker Night.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">19.02–28.02</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/19-02-2027">So Swiss</a></td><td class="small">Apartamenty COMFORT (T-Resort)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>4040</b></td></tr><tr><td class="num">26.02–07.03</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/26-02-2027">Swiss Powder Paradise</a></td><td class="small">Apartamenty COMFORT (T-Resort)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>4240</b></td></tr><tr><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/05-03-2027">Swiss Adventure</a></td><td class="small">Apartamenty COMFORT (T-Resort)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>3240</b></td></tr><tr><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/12-03-2027">Swiss Alps and Fun</a></td><td class="small">Apartamenty COMFORT (T-Resort)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>2940</b></td></tr></tbody></table></div>
-</section><section id="dachstein-west" class="resort">
-<div class="rh"><h2>Dachstein West</h2><span class="cc big">Austria</span><span class="price num">od <b>4140 PLN</b> PLUS</span></div>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="2" data-status="ok" data-price="4470"><td class="num">19.02–28.02</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/19-02-2027">So Swiss</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4470</b></td></tr><tr data-month="2" data-status="ok" data-price="4670"><td class="num">26.02–07.03</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/26-02-2027">Swiss Powder Paradise</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4670</b></td></tr><tr data-month="3" data-status="ok" data-price="3670"><td class="num">05.03–14.03</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/05-03-2027">Swiss Adventure</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3670</b></td></tr><tr data-month="3" data-status="ok" data-price="3370"><td class="num">12.03–21.03</td><td><a href="https://snowshow.pl/wyjazdy/szwajcaria/verbier/12-03-2027">Swiss Alps and Fun</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>3370</b></td></tr></tbody></table></div>
+</section><section id="dachstein-west" class="resort" data-name="Dachstein West" data-price="4710" data-bus="13.5" data-km="142" data-s3="0" data-s4="1" data-meals="1" data-country="Austria">
+<div class="rh"><h2>Dachstein West</h2><span class="cc big">Austria</span><span class="price num">od <b class="pmin">4710 PLN</b> / os.</span></div>
 <div class="tw"><table class="cmp"><tbody>
 <tr><th>Skipass w cenie</th><td>6-dniowy, Dachstein West / Krippenstein<div class="ext">+30 km tras freeride, Krippenstein w cenie</div></td></tr>
 <tr><th>Ośrodek</th><td class="num"><b>142 km tras</b> · 780–2100 m n.p.m.<ul class="tr"><li><span>łatwe</span><b>16</b></li><li><span>średnie</span><b>39</b></li><li><span>trudne</span><b>4</b></li></ul></td></tr>
@@ -428,30 +445,48 @@ tbody tr:first-child td,tbody tr:first-child th{border-top:0}
 </ul>
 <div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
 <ul><li>3-os.: brak</li><li>4-os.: 200 PLN</li><li>wolne łóżko: +1500–2000 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~13,5 h</b> z Warszawy · Poznań: bez dopłaty · dojazd własny −100–200 PLN</td></tr>
+<tr><th>Autokar</th><td class="num"><b>~13,5 h</b> z Warszawy · dojazd własny −100–200 PLN</td></tr>
 <tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Pościel i ręczniki 20 EUR</li><li>Sprzątanie 15 EUR</li><li>Taksa 28 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
 <tr><th>Atmosfera</th><td>Obertraun nad Hallstätter See – spokojnie, bez klubów (bar i restauracja), wieczory przy kominku. Terminy z Poznaniem tylko PLUS/OLDSCHOOL.</td></tr>
 </tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">13.02–20.02</td><td><a href="https://snowshow.pl/wyjazdy/austria/dachstein-west/13-02-2027">Pure Austrian Powder</a></td><td class="small">Domki PREMIUM 4* (Dormio Resort Obertraun)</td><td><span class="st ok">wolne</span></td><td class="small">bez dopłaty</td><td class="num"><b>4240</b></td></tr><tr><td class="num">20.02–27.02</td><td><a href="https://snowshow.pl/wyjazdy/austria/dachstein-west/20-02-2027">Austria Peak Performance</a></td><td class="small">(domki PREMIUM 4*, Dormio Resort Obertraun)</td><td><span class="st few">mało</span></td><td class="small">bez dopłaty</td><td class="num"><b>4140</b></td></tr></tbody></table></div>
-</section><section id="3-zinnen-cortina-d-ampezzo-dolomiti-superski" class="resort">
-<div class="rh"><h2>3 Zinnen</h2><span class="cc big">Włochy</span><span class="price num">od <b>3140 PLN</b> PLUS</span></div>
-<div class="tw"><table class="cmp"><tbody>
-<tr><th>Skipass w cenie</th><td>5-dniowy, 3 Zinnen (+ jazda nocna)<div class="ext">opcja: Dolomiti Superski 1200 km / Cortina (~30 min autem)</div></td></tr>
-<tr><th>Ośrodek</th><td class="num"><b>115 km tras</b> · 1131–2200 m n.p.m.<ul class="tr"><li><span>łatwe</span><b>30</b></li><li><span>średnie</span><b>39</b></li><li><span>trudne</span><b>12</b></li></ul></td></tr>
-<tr><th>Zakwaterowanie</th><td><div class="acc"><b>Hotel 3* HB (Croda Rossa)</b>
-<ul>
-<li>Do stoku: <b>~25 min autokarem SnowShow do stoku (2 kursy rano, 2 po południu)</b></li>
-<li>Wyżywienie: HB obowiązkowe 135 EUR</li>
-<li>bar, 2 sale eventowe, Wi-Fi wolne w pokojach, narciarnia</li>
-</ul>
-<div class="dop num"><b>Dopłata za pokój (PLUS, od osoby):</b>
-<ul><li>3-os.: 100 PLN</li><li>4-os.: 100–200 PLN</li><li>wolne łóżko: +2000 PLN</li></ul></div></div></td></tr>
-<tr><th>Autokar</th><td class="num"><b>~15 h</b> z Warszawy · Poznań: dopłata 150 zł · dojazd własny −150 PLN</td></tr>
-<tr><th>Obowiązkowe opłaty poza ceną</th><td class="num"><ul><li>Ubezpieczenie 95/115/145 PLN</li><li>Wyżywienie HB 135 EUR</li><li>Taksa 18 EUR</li><li>Kaucja zwrotna 50 EUR</li></ul></td></tr>
-<tr><th>Atmosfera</th><td>W Sesto brak klubów (Max Alm 12 km); schroniska z aperolem, jazda nocna na Haunold. Zaliczka 1000 PLN. Poznań z dopłatą 150 zł.</td></tr>
-</tbody></table></div>
-<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Zakwaterowanie</th><th>Miejsca</th><th>Poznań</th><th>PLUS PLN</th></tr></thead><tbody><tr><td class="num">14.02–20.02</td><td><a href="https://snowshow.pl/wyjazdy/wlochy/3-zinnen/14-02-2027">Italian Break</a></td><td class="small">Hotel 3* HB (Croda Rossa)</td><td><span class="st ok">wolne</span></td><td class="small">+150 zł</td><td class="num"><b>3340</b></td></tr><tr><td class="num">21.02–27.02</td><td><a href="https://snowshow.pl/wyjazdy/wlochy/3-zinnen/21-02-2027">Italian Camp</a></td><td class="small">Hotel 3* HB (Croda Rossa)</td><td><span class="st few">mało</span></td><td class="small">+150 zł</td><td class="num"><b>3140</b></td></tr></tbody></table></div>
-</section>
+<div class="tw"><table class="terms"><thead><tr><th>Termin</th><th>Wyjazd</th><th>Koszt / os. – pokój 3-os.</th><th>Koszt / os. – pokój 4-os.</th></tr></thead><tbody><tr data-month="2" data-status="ok" data-price="4810"><td class="num">13.02–20.02</td><td><a href="https://snowshow.pl/wyjazdy/austria/dachstein-west/13-02-2027">Pure Austrian Powder</a> <span class="st ok">wolne</span></td><td class="num"><b>–</b></td><td class="num"><b>4810</b></td></tr><tr data-month="2" data-status="few" data-price="4710"><td class="num">20.02–27.02</td><td><a href="https://snowshow.pl/wyjazdy/austria/dachstein-west/20-02-2027">Austria Peak Performance</a> <span class="st few">mało</span></td><td class="num"><b>–</b></td><td class="num"><b>4710</b></td></tr></tbody></table></div>
+</section></div>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const list=$('#list'), toc=$('#toc'), secs=$$('section.resort');
+function apply(){
+  const s3=$('#f-s3').checked, s4=$('#f-s4').checked, free=$('#f-free').checked, meals=$('#f-meals').checked;
+  const months=new Set($$('.f-m:checked').map(i=>+i.value));
+  const countries=new Set($$('.f-c:checked').map(i=>i.value));
+  const max=parseInt($('#f-max').value)||Infinity;
+  let shown=0, trips=0;
+  secs.forEach(sec=>{
+    let ok=countries.has(sec.dataset.country) && (!s3||sec.dataset.s3==='1') && (!s4||sec.dataset.s4==='1') && (!meals||sec.dataset.meals==='1');
+    let min=Infinity;
+    sec.querySelectorAll('table.terms tbody tr').forEach(tr=>{
+      const v=months.has(+tr.dataset.month) && (!free||tr.dataset.status==='ok') && +tr.dataset.price<=max;
+      tr.hidden=!v; if(v){min=Math.min(min,+tr.dataset.price);}
+    });
+    if(min===Infinity) ok=false;
+    sec.hidden=!ok; sec.dataset.cur=min;
+    if(ok){shown++; trips+=sec.querySelectorAll('table.terms tbody tr:not([hidden])').length; sec.querySelector('.pmin').textContent=min+' PLN';}
+  });
+  const key=$('#sort').value;
+  const vis=secs.filter(s=>!s.hidden).sort((a,b)=>{
+    if(key==='price') return a.dataset.cur-b.dataset.cur;
+    if(key==='bus') return a.dataset.bus-b.dataset.bus||a.dataset.cur-b.dataset.cur;
+    if(key==='km') return b.dataset.km-a.dataset.km||a.dataset.cur-b.dataset.cur;
+    return a.dataset.name.localeCompare(b.dataset.name,'pl');
+  });
+  vis.forEach(s=>list.appendChild(s));
+  toc.innerHTML=vis.map(s=>`<a href="#${s.id}">${s.dataset.name} <b>${s.dataset.cur}</b></a>`).join('');
+  $('#count').textContent=`${shown} ośrodków · ${trips} wyjazdów`;
+}
+$('#filters').addEventListener('input',apply);
+apply();
+})();
+</script>
 
 <h3>Wspólne dla wszystkich wyjazdów</h3>
 <div class="tw"><table class="cmp"><tbody>
